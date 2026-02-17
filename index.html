@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Đề Kiểm Tra Lịch Sử - Đề Số 20</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{--red:#c0392b;--red-dark:#922b21;--red-light:#fadbd8;--gold:#d4a017;--gold-light:#fef9e7;--navy:#1a2744;--navy-mid:#2c3e6b;--gray-50:#f8f9fa;--gray-100:#f0f2f5;--gray-200:#e4e7ec;--gray-400:#9ca3af;--gray-600:#4b5563;--gray-800:#1f2937;--green:#16a34a;--green-light:#dcfce7;--orange:#ea580c;--shadow-lg:0 8px 40px rgba(26,39,68,0.16);}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Be Vietnam Pro',sans-serif;background:linear-gradient(135deg,#1a2744 0%,#2c3e6b 50%,#1a2744 100%);min-height:100vh;color:var(--gray-800);}
+  .site-header{background:rgba(255,255,255,0.04);border-bottom:1px solid rgba(255,255,255,0.1);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+  .header-title{font-family:'Playfair Display',serif;color:#fff;font-size:1.2rem;letter-spacing:0.5px;}
+  .header-title span{color:var(--gold);}
+  .timer-wrap{display:flex;align-items:center;gap:0.6rem;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:40px;padding:0.4rem 1.2rem;}
+  #timer-display{font-size:1.3rem;font-weight:700;color:#fff;font-variant-numeric:tabular-nums;letter-spacing:2px;}
+  #timer-display.warning{color:var(--gold);animation:pulse 1s infinite;}
+  #timer-display.danger{color:#ff6b6b;animation:pulse 0.5s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.5;}}
+  .header-meta{font-size:0.82rem;color:rgba(255,255,255,0.6);}
+  .main-container{max-width:900px;margin:0 auto;padding:2rem 1rem 4rem;}
+  .progress-bar-outer{background:rgba(255,255,255,0.1);border-radius:8px;height:8px;margin-bottom:1.5rem;overflow:hidden;}
+  .progress-bar-inner{background:linear-gradient(90deg,var(--gold),#f59e0b);height:100%;border-radius:8px;transition:width 0.4s ease;}
+  .progress-label{text-align:center;color:rgba(255,255,255,0.7);font-size:0.82rem;margin-bottom:1rem;}
+  .section-title{background:linear-gradient(135deg,var(--red) 0%,var(--red-dark) 100%);color:#fff;border-radius:12px 12px 0 0;padding:1rem 1.5rem;font-size:1rem;font-weight:700;display:flex;align-items:center;gap:0.6rem;}
+  .section-title .badge{background:rgba(255,255,255,0.2);border-radius:20px;padding:0.15rem 0.6rem;font-size:0.78rem;font-weight:500;}
+  .card{background:#fff;border-radius:0 0 16px 16px;box-shadow:var(--shadow-lg);margin-bottom:2rem;overflow:hidden;}
+  .question-block{padding:1.2rem 1.5rem;border-bottom:1px solid var(--gray-100);transition:background 0.2s;}
+  .question-block:last-child{border-bottom:none;}
+  .question-block.answered{background:#f8fffe;}
+  .q-header{display:flex;align-items:flex-start;gap:0.8rem;margin-bottom:0.8rem;}
+  .q-num{background:var(--navy);color:#fff;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.78rem;font-weight:700;flex-shrink:0;margin-top:0.05rem;}
+  .q-text{font-size:0.95rem;font-weight:500;line-height:1.6;color:var(--gray-800);}
+  .q-blockquote{background:var(--gray-50);border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:1rem 1.2rem;margin:0.7rem 0 0.9rem;font-size:0.875rem;line-height:1.75;color:var(--gray-600);font-style:italic;white-space:pre-line;}
+  .q-blockquote .source{display:block;margin-top:0.5rem;font-size:0.8rem;color:var(--gray-400);font-style:normal;}
+  .info-table{width:100%;border-collapse:collapse;font-size:0.87rem;margin:0.7rem 0 0.9rem;border-radius:8px;overflow:hidden;box-shadow:0 0 0 1px var(--gray-200);}
+  .info-table th{background:var(--navy);color:#fff;padding:0.65rem 1rem;text-align:left;font-weight:600;}
+  .info-table td{padding:0.6rem 1rem;border-bottom:1px solid var(--gray-100);line-height:1.5;vertical-align:top;}
+  .info-table tr:last-child td{border-bottom:none;}
+  .info-table tr:nth-child(even) td{background:var(--gray-50);}
+  .options-grid{display:grid;gap:0.5rem;padding:0 0 0 2.5rem;}
+  .option-label{display:flex;align-items:flex-start;gap:0.6rem;padding:0.55rem 0.9rem;border:1.5px solid var(--gray-200);border-radius:8px;cursor:pointer;transition:all 0.18s;font-size:0.9rem;line-height:1.45;background:#fff;}
+  .option-label:hover{border-color:var(--navy);background:var(--gray-50);}
+  .option-label input{display:none;}
+  .option-label.selected{border-color:var(--navy-mid);background:#eef2ff;}
+  .opt-key{font-weight:700;color:var(--navy);min-width:18px;font-size:0.88rem;}
+  .tf-grid{display:flex;gap:0.6rem;padding:0 0 0 2.5rem;margin-top:0.4rem;}
+  .tf-label{display:flex;align-items:center;gap:0.4rem;padding:0.4rem 1.1rem;border:1.5px solid var(--gray-200);border-radius:6px;cursor:pointer;font-size:0.88rem;font-weight:600;transition:all 0.18s;background:#fff;}
+  .tf-label:hover{border-color:var(--navy);}
+  .tf-label input{display:none;}
+  .tf-label.selected-true{border-color:var(--green);background:var(--green-light);color:var(--green);}
+  .tf-label.selected-false{border-color:var(--red);background:var(--red-light);color:var(--red-dark);}
+  .sub-q{font-size:0.88rem;color:var(--gray-600);margin-bottom:0.35rem;font-weight:500;padding:0 0 0 2.5rem;}
+  .sub-q-block{margin-bottom:0.8rem;}
+  .actions-bar{position:sticky;bottom:0;background:rgba(26,39,68,0.97);backdrop-filter:blur(12px);border-top:1px solid rgba(255,255,255,0.1);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;z-index:90;}
+  .action-info{color:rgba(255,255,255,0.7);font-size:0.85rem;}
+  .btn-group{display:flex;gap:0.8rem;}
+  .btn{font-family:'Be Vietnam Pro',sans-serif;font-size:0.9rem;font-weight:700;border:none;border-radius:8px;padding:0.65rem 1.5rem;cursor:pointer;transition:all 0.18s;}
+  .btn-secondary{background:rgba(255,255,255,0.1);color:#fff;border:1px solid rgba(255,255,255,0.2);}
+  .btn-secondary:hover{background:rgba(255,255,255,0.18);}
+  .btn-primary{background:linear-gradient(135deg,var(--red) 0%,var(--red-dark) 100%);color:#fff;box-shadow:0 2px 12px rgba(192,57,43,0.4);}
+  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(192,57,43,0.5);}
+  .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,#b8860b 100%);color:#fff;box-shadow:0 2px 12px rgba(212,160,23,0.4);}
+  .btn-gold:hover{transform:translateY(-1px);}
+  #result-screen{display:none;}
+  .result-card{background:#fff;border-radius:20px;box-shadow:var(--shadow-lg);overflow:hidden;margin-bottom:2rem;}
+  .result-header{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-mid) 100%);padding:2.5rem 2rem;text-align:center;color:#fff;}
+  .result-header h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:0.5rem;}
+  .score-big{font-size:4rem;font-weight:800;color:var(--gold);line-height:1;margin:1rem 0 0.5rem;}
+  .score-detail{color:rgba(255,255,255,0.75);font-size:0.9rem;}
+  .score-breakdown{display:grid;grid-template-columns:1fr 1fr;gap:0;}
+  .score-box{padding:1.2rem 1.5rem;border-right:1px solid var(--gray-100);border-bottom:1px solid var(--gray-100);text-align:center;}
+  .score-box:nth-child(2){border-right:none;}
+  .score-box:nth-child(3),.score-box:nth-child(4){border-bottom:none;}
+  .score-box .label{font-size:0.82rem;color:var(--gray-400);margin-bottom:0.3rem;}
+  .score-box .val{font-size:1.5rem;font-weight:800;color:var(--navy);}
+  .review-section{padding:1.5rem;}
+  .review-title{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--gray-100);}
+  .review-item{padding:1rem 1.2rem;border-radius:10px;margin-bottom:0.8rem;background:var(--gray-50);border:1.5px solid var(--gray-200);}
+  .review-item.correct{background:#f0fdf4;border-color:#86efac;}
+  .review-item.wrong{background:#fff5f5;border-color:#fca5a5;}
+  .review-q-text{font-size:0.9rem;font-weight:600;margin-bottom:0.5rem;color:var(--gray-800);}
+  .review-answer{font-size:0.85rem;margin-bottom:0.2rem;}
+  .answer-your{color:var(--orange);}
+  .answer-correct{color:var(--green);}
+  .review-status{display:inline-flex;align-items:center;gap:0.3rem;font-size:0.8rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;margin-bottom:0.5rem;}
+  .status-correct{background:var(--green-light);color:var(--green);}
+  .status-wrong{background:#fee2e2;color:var(--red);}
+  .status-partial{background:var(--gold-light);color:#856404;}
+  .review-blockquote{font-size:0.8rem;line-height:1.6;color:var(--gray-600);background:var(--gray-50);border-left:3px solid var(--red);padding:0.5rem 0.8rem;border-radius:0 6px 6px 0;margin:0.4rem 0;font-style:italic;white-space:pre-line;}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:center;justify-content:center;}
+  .modal-overlay.show{display:flex;}
+  .modal-box{background:#fff;border-radius:16px;padding:2rem;max-width:400px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.3);animation:pop 0.25s ease;}
+  @keyframes pop{from{transform:scale(0.85);opacity:0;}to{transform:scale(1);opacity:1;}}
+  .modal-icon{font-size:2.5rem;margin-bottom:0.8rem;}
+  .modal-title{font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;}
+  .modal-text{font-size:0.9rem;color:var(--gray-600);margin-bottom:1.5rem;line-height:1.5;}
+  .modal-buttons{display:flex;gap:0.8rem;justify-content:center;}
+  .btn-modal-cancel{background:var(--gray-100);color:var(--gray-800);}
+  .btn-modal-cancel:hover{background:var(--gray-200);}
+  .btn-modal-ok{background:var(--red);color:#fff;}
+  .btn-modal-ok:hover{background:var(--red-dark);}
+  .fade-in{animation:fadeIn 0.5s ease both;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+  @media(max-width:600px){.main-container{padding:1rem 0.5rem 5rem;}.question-block{padding:1rem;}.options-grid,.tf-grid,.sub-q{padding-left:1.2rem;}.site-header{padding:0 1rem;}.actions-bar{padding:0.8rem 1rem;}.score-breakdown{grid-template-columns:1fr;}.score-box{border-right:none;}}
+</style>
+</head>
+<body>
+
+<div class="modal-overlay" id="submit-modal">
+  <div class="modal-box">
+    <div class="modal-icon">📋</div>
+    <div class="modal-title">Nộp bài kiểm tra?</div>
+    <div class="modal-text" id="modal-unanswered-text">Bạn có chắc chắn muốn nộp bài?</div>
+    <div class="modal-buttons">
+      <button class="btn btn-modal-cancel" onclick="closeModal()">Làm tiếp</button>
+      <button class="btn btn-modal-ok" onclick="submitExam()">Nộp bài</button>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="header-title"><span>ĐỀ SỐ 20</span> — Kiểm Tra Lịch Sử</div>
+  <div class="timer-wrap">
+    <span style="font-size:1.1rem">⏱</span>
+    <span id="timer-display">45:00</span>
+  </div>
+  <div class="header-meta">45 phút</div>
+</header>
+
+<div id="exam-screen">
+  <div class="main-container">
+    <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar" style="width:0%"></div></div>
+    <div class="progress-label" id="progress-label">Đã trả lời: 0 / 40 câu/ý</div>
+
+    <div class="section-title">📚 PHẦN I — Trắc nghiệm một đáp án <span class="badge">24 câu × 0.25đ</span></div>
+    <div class="card"><div class="card-body" id="part1-container"></div></div>
+
+    <div class="section-title">📖 PHẦN II — Đúng / Sai <span class="badge">4 câu × 4 ý</span></div>
+    <div class="card"><div class="card-body" id="part2-container"></div></div>
+  </div>
+  <div class="actions-bar">
+    <div class="action-info" id="action-info">Chưa trả lời câu nào</div>
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="resetExam()">🔁 Làm lại</button>
+      <button class="btn btn-primary" onclick="openSubmitModal()">📤 Nộp bài</button>
+    </div>
+  </div>
+</div>
+
+<div id="result-screen">
+  <div class="main-container fade-in">
+    <div class="result-card">
+      <div class="result-header">
+        <h2>🎉 Kết Quả Kiểm Tra</h2>
+        <div>Đề Số 20 — Lịch Sử</div>
+        <div class="score-big" id="result-total">0.00</div>
+        <div class="score-detail">/ 10.00 điểm</div>
+      </div>
+      <div class="score-breakdown">
+        <div class="score-box"><div class="label">Phần I (24 câu)</div><div class="val" id="res-p1">0.00</div></div>
+        <div class="score-box"><div class="label">Phần II (4 câu)</div><div class="val" id="res-p2">0.00</div></div>
+        <div class="score-box"><div class="label">Số câu đúng P.I</div><div class="val" id="res-p1-correct">0/24</div></div>
+        <div class="score-box"><div class="label">Thời gian làm</div><div class="val" id="res-time">--:--</div></div>
+      </div>
+    </div>
+    <div class="result-card"><div class="review-section" id="review-container"></div></div>
+    <div style="text-align:center;padding-bottom:2rem;">
+      <button class="btn btn-gold" onclick="resetExam()" style="padding:0.8rem 2.5rem;font-size:1rem;">🔁 Làm lại với câu hỏi tráo đổi</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// DATA — ĐỀ SỐ 20
+// ============================================================
+const PART1_ORIGINAL = [
+  {id:'p1_1',text:'Năm 1949, nước Cộng hòa nhân dân Trung Hoa được thành lập do nhân vật lịch sử nào sau đây đứng đầu?',options:{A:'Đặng Tiểu Bình.',B:'Mao Trạch Đông.',C:'Chu Ân Lai.',D:'Tập Cận Bình.'},answer:'B'},
+  {id:'p1_2',text:'Nội dung nào sau đây là thuận lợi đối với phong trào đấu tranh giải phóng dân tộc trên thế giới từ 1945 đến 1950?',options:{A:'Chủ nghĩa xã hội lâm vào khủng hoảng, sụp đổ.',B:'Thắng lợi của phe Đồng minh trong chiến tranh.',C:'Sự suy yếu của các nước đế quốc Anh, Pháp, Mĩ.',D:'Ủng hộ, viện trợ to lớn của Liên Xô, Trung Quốc.'},answer:'B'},
+  {id:'p1_3',text:'Cuộc khởi nghĩa do Khúc Thừa Dụ (thế kỷ X) nhằm lật đổ ách thống trị của triều đại nào?',options:{A:'Hán.',B:'Đường.',C:'Tống.',D:'Nguyên.'},answer:'B'},
+  {id:'p1_4',text:'Nội dung nào sau đây không phải nguyên nhân dẫn đến sự thất bại của cuộc khởi nghĩa do Hai Bà Trưng lãnh đạo?',options:{A:'Thiếu thốn về các loại vũ khí, trang bị.',B:'Quân khởi nghĩa thiếu kinh nghiệm.',C:'Quân Hán tinh nhuệ được tổ chức tốt.',D:'Điều kiện thời tiết quá khắc nghiệt.'},answer:'D'},
+  {id:'p1_5',text:'Quốc gia nào sau đây không phải là uỷ viên thường trực Hội đồng Bảo an Liên hợp quốc?',options:{A:'Mỹ.',B:'Nga.',C:'Đức.',D:'Anh.'},answer:'C'},
+  {id:'p1_6',text:'Biện pháp chủ yếu được Mỹ và Liên Xô sử dụng để kết thúc các cuộc chiến tranh cục bộ trong Chiến tranh lạnh (1947-1989) là gì?',options:{A:'Kinh tế.',B:'Chính trị.',C:'Ngoại giao.',D:'Quân sự.'},answer:'C'},
+  {id:'p1_7',text:'Hiệp hội các quốc gia Đông Nam Á (ASEAN) được thành lập (1967) là biểu hiện rõ nét của xu thế nào sau đây?',options:{A:'Toàn cầu hóa.',B:'Hòa hoãn Đông - Tây.',C:'Đa cực, nhiều trung tâm.',D:'Liên kết khu vực.'},answer:'D'},
+  {id:'p1_8',text:'Hiệp hội các quốc gia Đông Nam Á (ASEAN) ra đời năm 1967 nhằm đáp ứng nhu cầu nào sau đây?',options:{A:'Cân bằng sức mạnh với Mỹ.',B:'Tăng cường sức mạnh quân sự.',C:'Đoàn kết để giải phóng dân tộc.',D:'Hợp tác để cùng phát triển.'},answer:'D'},
+  {id:'p1_9',text:'Nội dung nào không phản ánh đúng về vai trò của tổ chức ASEAN đối với các quốc gia ở khu vực Đông Nam Á?',options:{A:'Là nhân tố hàng đầu đảm bảo môi trường hòa bình, ổn định ở khu vực.',B:'Quyết định sự phát triển kinh tế - xã hội của các quốc gia trong khu vực.',C:'Củng cố và tăng cường quan hệ hợp tác giữa các nước trong khu vực.',D:'Thúc đẩy sự tăng trưởng về kinh tế của các nước thành viên ASEAN.'},answer:'B'},
+  {id:'p1_10',text:'Trong Tổng khởi nghĩa tháng Tám năm 1945, những tỉnh giành chính quyền sớm nhất trong cả nước là',options:{A:'Bắc Giang, Hải Dương, Thanh Hóa, Quảng Nam.',B:'Bắc Giang, Hải Hưng, Hà Tĩnh, Quảng Nam.',C:'Bắc Cạn, Hải Dương, Hà Tĩnh, Quảng Nam.',D:'Bắc Giang, Hải Dương, Hà Tĩnh, Quảng Nam.'},answer:'D'},
+  {id:'p1_11',text:'Năm 1945, cơ quan nào sau đây ban bố "Quân lệnh số 1", chính thức phát lệnh Tổng khởi nghĩa trong cả nước?',options:{A:'Ủy ban Khởi nghĩa toàn quốc.',B:'Ủy ban Dân tộc giải phóng Việt Nam.',C:'Ủy ban Dân tộc giải phóng các cấp.',D:'Ủy ban lâm thời khu Giải phóng.'},answer:'A'},
+  {id:'p1_12',text:'Nội dung nào sau đây là nguyên nhân trực tiếp dẫn đến bùng nổ cuộc kháng chiến toàn quốc chống thực dân Pháp (12-1946) của nhân dân Việt Nam?',options:{A:'Pháp bội ước, buộc Việt Nam phải đầu hàng.',B:'Nhân dân Việt Nam đang quyết tâm chiến đấu.',C:'Sự ủng hộ, giúp đỡ của Liên Xô, Trung Quốc.',D:'Quân Pháp đang trên đà suy yếu và thất bại.'},answer:'A'},
+  {id:'p1_13',text:'Nội dung nào sau đây là cơ sở để Đảng Cộng sản Đông Dương đề ra đường lối kháng chiến toàn dân?',options:{A:'Quân Pháp đã suy yếu, tổn thất.',B:'Truyền thống dân tộc Việt Nam.',C:'Pháp mất thế chủ động chiến lược.',D:'Việt Nam được thế giới công nhận.'},answer:'B'},
+  {id:'p1_14',text:'Nội dung nào sau đây được xác định là nhiệm vụ trung tâm của công cuộc Đổi mới ở Việt Nam giai đoạn 1996 – 2006?',options:{A:'Đổi mới cơ chế quản lí kinh tế, cải cách hệ thống giá, chống lạm phát.',B:'Đổi mới chính sách văn hoá - xã hội, ưu tiên phát triển y tế, giáo dục.',C:'Đổi mới hệ thống chính trị, đẩy mạnh xây dựng và chỉnh đốn Đảng.',D:'Đẩy mạnh công nghiệp hóa, hiện đại hóa và hội nhập kinh tế quốc tế.'},answer:'D'},
+  {id:'p1_15',text:'Nội dung nào sau đây không phải là nội dung đường lối đổi mới đất nước từ năm 2006 đến nay?',options:{A:'Thực hiện tập thể hóa nông nghiệp trên quy mô toàn quốc.',B:'Hoàn thiện xây dựng nhà nước pháp quyền xã hội chủ nghĩa.',C:'Chủ động và tích cực hội nhập quốc tế toàn diện và sâu rộng.',D:'Đẩy mạnh công nghiệp hoá, hiện đại hoá gắn với kinh tế tri thức.'},answer:'A'},
+  {id:'p1_16',text:'Trong cuộc kháng chiến chống Mỹ, cứu nước (1954 - 1975), Việt Nam chủ yếu củng cố, phát triển quan hệ với các quốc gia ở khu vực nào sau đây?',options:{A:'Đông Nam Á.',B:'Tây Âu.',C:'Đông Âu.',D:'Mỹ Latinh.'},answer:'C'},
+  {id:'p1_17',text:'Theo bản Hiệp định Pa-ri được kí ngày 27-1-1973, Mỹ và các nước đã phải công nhận Việt Nam là quốc gia',options:{A:'độc lập',B:'tự do.',C:'dân chủ.',D:'pháp trị.'},answer:'A'},
+  {id:'p1_18',text:'Một trong những nguyên tắc cơ bản, quan trọng để đàm phán Hiệp định sơ bộ 1946, Hiệp định Giơnevơ 1954 và Hiệp định Pari 1973 là',options:{A:'tôn trọng quyền dân tộc cơ bản của Việt Nam.',B:'phạm vi đóng quân chia thành vùng riêng biệt.',C:'các bên tham chiến phải nhanh chóng rút quân.',D:'không được sử dụng các loại vũ khí hủy diệt.'},answer:'A'},
+  {id:'p1_19',text:'Nội dung nào sau đây không phải là yếu tố có ảnh hưởng đến cuộc đời và hoạt động cách mạng của Nguyễn Tất Thành giai đoạn 1900 - 1911?',options:{A:'Yếu tố quê hương giàu truyền thống đấu tranh cách mạng.',B:'Yếu tố cá nhân với năng lực học tập và nhãn quan chính trị.',C:'Yếu tố thời đại với sự phát triển mạnh của chủ nghĩa xã hội.',D:'Yếu tố dân tộc, đang rên xiết dưới ách cai trị của thực dân.'},answer:'C'},
+  {id:'p1_20',text:'Tháng 6-1945, Hồ Chí Minh đã ra chỉ thị thành lập',options:{A:'khu giải phóng Việt Bắc.',B:'an toàn khu Bắc Thái.',C:'chiến khu Đông Triều.',D:'đội du kích Bắc Sơn.'},answer:'A'},
+  {id:'p1_21',text:'Nhận định nào sau đây là đúng về quá trình ra đi tìm đường cứu nước của người thanh niên yêu nước Nguyễn Tất Thành?',options:{A:'Là con đường đến với chủ nghĩa Mác – Lê nin ngay từ ban đầu.',B:'Là con đường khảo sát, lựa chọn bằng những hoạt động thực tế.',C:'Từ chủ nghĩa yêu nước đến với chủ nghĩa dân tộc là một tất yếu.',D:'Là quá trình tự xây dựng con đường giải phóng dân tộc riêng biệt.'},answer:'B'},
+  {id:'p1_22',text:'Một trong những bài học kinh nghiệm rút ra từ sự sụp đổ của Liên Xô mà Việt Nam có thể vận dụng trong công cuộc đổi mới đất nước hiện nay là',options:{A:'giữ vững vai trò lãnh đạo của Đảng Cộng sản.',B:'mở rộng quan hệ hợp tác đối ngoại với thế giới.',C:'xây dựng nền kinh tế thị trường xã hội chủ nghĩa.',D:'tăng cường ứng dụng thành tựu khoa học - kĩ thuật.'},answer:'A'},
+  {id:'p1_23',text:'Một trong những bài học kinh nghiệm từ cuộc kháng chiến chống Pháp xâm lược (1945 – 1954) được Đảng Lao động Việt Nam tiếp tục vận dụng trong kháng chiến chống Mỹ, cứu nước (1954 – 1975) là',options:{A:'kết hợp sức mạnh dân tộc với sức mạnh thời đại.',B:'thực hiện đấu tranh nghị trường trên cả ba miền.',C:'thực hiện đồng thời hai nhiệm vụ ở mỗi miền.',D:'tăng cường đoàn kết với các nước Đông Nam Á.'},answer:'A'},
+  {id:'p1_24',text:'Nhận định nào sau đây là đúng về những chính sách mà Việt Nam có thể áp dụng để hội nhập kinh tế thành công với thế giới?',options:{A:'Xây dựng nền kinh tế tự chủ, phát huy lợi thế đất nước.',B:'Liên kết, hợp tác chặt chẽ với các nước Đông Nam Á.',C:'Tìm kiếm những nguồn vốn viện trợ không hoàn lại.',D:'Gia nhập vào tất cả các tổ chức thương mại thế giới.'},answer:'A'},
+];
+
+const PART2_ORIGINAL = [
+  {
+    id:'p2_1',type:'table',
+    tableHtml:`<table class="info-table"><thead><tr><th>Thời gian</th><th>Sự kiện</th></tr></thead><tbody>
+      <tr><td><strong>Ngày 6-1-1975</strong></td><td>Quân dân miền Nam giành được thắng lợi quan trọng ở Đường 14 - Phước Long. Trước tình hình đó, Bộ Chính trị Trung ương Đảng đã bổ sung, hoàn chỉnh kế hoạch giải phóng miền Nam.</td></tr>
+      <tr><td><strong>Ngày 24-3-1975</strong></td><td>Chiến dịch Tây Nguyên thắng lợi đã chuyển cuộc kháng chiến chống Mỹ cứu nước từ tiến công chiến lược sang tổng tiến công chiến lược trên toàn miền Nam.</td></tr>
+      <tr><td><strong>Từ ngày 21-3 đến ngày 29-3-1975</strong></td><td>Chiến dịch Huế - Đà Nẵng giành thắng lợi mở ra khả năng giải phóng miền Nam ngay trong năm 1975.</td></tr>
+      <tr><td><strong>Ngày 30-4-1975</strong></td><td>Tổng thống cuối cùng của chính quyền Sài Gòn là Dương Văn Minh tuyên bố đầu hàng không điều kiện, chiến dịch Hồ Chí Minh toàn thắng.</td></tr>
+    </tbody></table>`,
+    subQuestions:[
+      {key:'a',text:'a) Bảng tư liệu đề cập đến những chiến thắng quan trọng trên mặt trận quân sự trong giai đoạn cuối của cuộc kháng chiến chống Mỹ.',answer:true},
+      {key:'b',text:'b) Chiến thắng Phước Long là trận trinh sát chiến lược, đưa kháng chiến chống Mỹ từ tiến công bước sang tổng tiến công chiến lược.',answer:false},
+      {key:'c',text:'c) Cuộc tổng tiến công và nổi dậy năm 1975 là đòn quân sự quyết định buộc Mỹ ký Hiệp định, chấm dứt chiến tranh ở Việt Nam.',answer:false},
+      {key:'d',text:'d) Với thắng lợi của cuộc tổng tiến công và nổi dậy 1975, cách mạng dân tộc dân chủ nhân dân ở miền Nam Việt Nam đã hoàn thành.',answer:true},
+    ]
+  },
+  {
+    id:'p2_2',type:'quote',
+    quote:`Trong 5 năm (1996-2000) được sự quan tâm của Đảng, Nhà nước, toàn xã hội và sự nỗ lực phấn đấu của ngành giáo dục, sự nghiệp giáo dục đã có những chuyển biến đáng kể. Mạng lưới trường, lớp được duy trì và phát triển với hình thức đa dạng hơn. Quy mô giáo dục không ngừng tăng lên và được điều chỉnh cho phù hợp với các điều kiện nhằm bảo đảm chất lượng, khắc phục tình trạng mất cân đối về cơ cấu cấp học, bậc học. Đội ngũ giáo viên tiếp tục được tăng cường theo hướng chuẩn hóa. Cơ sở vật chất kỹ thuật tuy còn nhiều khó khăn nhưng cũng đã được củng cố và nâng cấp, trình độ dân trí được nâng cao.`,
+    source:`Nguyễn Ngọc Mão (Chủ biên), Lịch sử Việt Nam, tập 15, \nNXB. Khoa học xã hội 2017, tr. 373`,
+    subQuestions:[
+      {key:'a',text:'a) Tư liệu đề cập đến những thành tựu bước đầu của công cuộc đổi mới trên lĩnh vực giáo dục từ sau năm 1986.',answer:true},
+      {key:'b',text:'b) Trong công cuộc đổi mới đất nước từ sau năm 1986, giáo dục đào tạo được coi là quốc sách hàng đầu.',answer:true},
+      {key:'c',text:'c) Trong giai đoạn 1996 – 2000, đổi mới giáo dục đã đạt thành tựu đáng kể, quyết định sự phát triển kinh tế.',answer:false},
+      {key:'d',text:'d) Sau năm 2000, Việt Nam đã khắc phục xong tình trạng mất cân đối về cấp học, hoàn thành cải cách giáo dục.',answer:false},
+    ]
+  },
+  {
+    id:'p2_3',type:'quote',
+    quote:`"Bằng các chuyến thăm hữu nghị của Đảng, Chủ tịch Hồ Chí Minh với mục đích mở rộng quan hệ ngoại giao, Việt Nam đã nhận được sự viện trợ to lớn cả về vật chất và tinh thần trong giai đoạn đầu của cuộc kháng chiến chống Mỹ. Liên Xô đã đồng ý viện trợ cho Việt Nam 40 triệu rúp không hoàn lại và cho vay 15 triệu rúp để thực hiện kế hoạch 3 năm khôi phục và phát triển kinh tế ở miền Bắc. Trung Quốc đã cam kết viện trợ cho Việt Nam 800 triệu nhân dân tệ, bao gồm viện trợ hàng hóa và khôi phục hệ thống giao thông đường sắt, đường bộ, xây dựng nhà máy... Có thể nói, đây là nguồn viện trợ quý giá trong công cuộc khôi phục và phát triển kinh tế của Việt Nam trong giai đoạn này."`,
+    source:`Phạm Đức Thuận: Giáo trình Lịch sử ngoại giao Việt Nam, \nNXB Đại học Cần Thơ, 2018, tr 129`,
+    subQuestions:[
+      {key:'a',text:'a) Đoạn tư liệu đề cập đến thành tựu bước đầu của ngoại giao Việt Nam trong cuộc kháng chiến chống Mỹ.',answer:true},
+      {key:'b',text:'b) Trong giai đoạn đầu của kháng chiến chống Mỹ, Việt Nam bắt đầu nhận được viện trợ to lớn từ Liên Xô, Trung Quốc.',answer:false},
+      {key:'c',text:'c) Nguồn viện trợ từ bên ngoài đã đóng vai trò quyết định đối với công cuộc khôi phục và phát triển kinh tế ở Việt Nam.',answer:false},
+      {key:'d',text:'d) Trong kháng chiến chống Mỹ, Việt Nam đã mở rộng quan hệ ngoại giao và nhận được sự hỗ trợ tích cực từ bên ngoài.',answer:true},
+    ]
+  },
+  {
+    id:'p2_4',type:'quote',
+    quote:`Những đặc điểm chính của lịch sử thế giới hiện đại thời kì này là:Một trật tự thế giới mới đang dần dần hình thành. Nhiều nhà chính trị dự đoán trong vòng nửa thế kỉ tới, cục diện thế giới sẽ có thể là một trật tự "đa cực". Tất cả các nước từ lớn đến nhỏ đều điều chỉnh lại chính sách đối nội, chính sách đối ngoại và đường lối xây dựng đất nước của mình sao cho phù hợp với tình hình thế giới mới.`,
+    source:`Nguyễn Anh Thái: Lịch sử thế giới hiện đại (1917 - 1995), \nNXB Giáo dục Việt Nam, Hà Nội, 2006, tr 537`,
+    subQuestions:[
+      {key:'a',text:'a) Tư liệu đề cập đến đặc điểm chính của lịch sử thế giới thời kỳ sau khi Chiến tranh lạnh chấm dứt.',answer:true},
+      {key:'b',text:'b) Ngay sau Chiến tranh lạnh, trật tự thế giới đa cực đã hình thành với sự vươn lên của các cường quốc.',answer:false},
+      {key:'c',text:'c) Sau Chiến tranh lạnh, các nước đều điều chỉnh chiến lược phát triển cho phù hợp với tình hình thế giới.',answer:true},
+      {key:'d',text:'d) Trật tự thế giới mới sau Chiến tranh lạnh hình thành sẽ phụ thuộc vào nhiều yếu tố, nhất là yếu tố "Mỹ".',answer:false},
+    ]
+  },
+];
+
+// ============================================================
+// STATE
+// ============================================================
+let part1Questions=[],part2Questions=[],answers={};
+let timerInterval=null,timeLeft=45*60,startTime=null,examDone=false;
+
+// ============================================================
+// UTILS
+// ============================================================
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function shuffleOptions(options){const keys=Object.keys(options);const vals=shuffle(keys.map(k=>options[k]));const n={};keys.forEach((k,i)=>{n[k]=vals[i];});return n;}
+
+// ============================================================
+// INIT
+// ============================================================
+function initExam(){
+  answers={};timeLeft=45*60;examDone=false;startTime=Date.now();
+  part1Questions=shuffle(PART1_ORIGINAL).map(q=>{
+    const newOpts=shuffleOptions(q.options);
+    const correctVal=q.options[q.answer];
+    const newAnswer=Object.keys(newOpts).find(k=>newOpts[k]===correctVal);
+    return{...q,options:newOpts,answer:newAnswer};
+  });
+  part2Questions=shuffle(PART2_ORIGINAL);
+  renderPart1();renderPart2();startTimer();updateProgress();
+}
+
+// ============================================================
+// RENDER PART 1
+// ============================================================
+function renderPart1(){
+  const c=document.getElementById('part1-container');c.innerHTML='';
+  part1Questions.forEach((q,idx)=>{
+    const b=document.createElement('div');b.className='question-block';b.id='qblock_'+q.id;
+    const opts=Object.entries(q.options).map(([k,v])=>`
+      <label class="option-label" id="opt_${q.id}_${k}" onclick="selectOption('${q.id}','${k}',this)">
+        <input type="radio" name="${q.id}" value="${k}">
+        <span class="opt-key">${k}.</span><span>${v}</span>
+      </label>`).join('');
+    b.innerHTML=`<div class="q-header"><div class="q-num">${idx+1}</div><div class="q-text">${q.text}</div></div><div class="options-grid">${opts}</div>`;
+    c.appendChild(b);
+  });
+}
+
+// ============================================================
+// RENDER PART 2
+// ============================================================
+function renderPart2(){
+  const c=document.getElementById('part2-container');c.innerHTML='';
+  part2Questions.forEach((q,idx)=>{
+    const b=document.createElement('div');b.className='question-block';b.id='qblock_'+q.id;
+    const content=q.type==='table'?q.tableHtml:`<div class="q-blockquote">${q.quote}<span class="source">${q.source}</span></div>`;
+    const subs=q.subQuestions.map(sq=>`
+      <div class="sub-q-block">
+        <div class="sub-q">${sq.text}</div>
+        <div class="tf-grid">
+          <label class="tf-label" id="tf_${q.id}_${sq.key}_true" onclick="selectTF('${q.id}','${sq.key}',true,this)"><input type="radio" name="${q.id}_${sq.key}" value="true"> ✅ Đúng</label>
+          <label class="tf-label" id="tf_${q.id}_${sq.key}_false" onclick="selectTF('${q.id}','${sq.key}',false,this)"><input type="radio" name="${q.id}_${sq.key}" value="false"> ❌ Sai</label>
+        </div>
+      </div>`).join('');
+    b.innerHTML=`<div class="q-header"><div class="q-num">${idx+1}</div><div class="q-text">Cho thông tin sau đây:</div></div>${content}${subs}`;
+    c.appendChild(b);
+  });
+}
+
+// ============================================================
+// INTERACTIONS
+// ============================================================
+function selectOption(qId,key,el){
+  if(examDone)return;
+  document.querySelectorAll(`[id^="opt_${qId}_"]`).forEach(l=>l.classList.remove('selected'));
+  el.classList.add('selected');answers[qId]=key;
+  const bl=document.getElementById('qblock_'+qId);if(bl)bl.classList.add('answered');
+  updateProgress();
+}
+function selectTF(qId,subKey,val,el){
+  if(examDone)return;
+  ['true','false'].forEach(v=>{const e=document.getElementById(`tf_${qId}_${subKey}_${v}`);if(e)e.classList.remove('selected-true','selected-false');});
+  el.classList.add(val?'selected-true':'selected-false');
+  answers[`${qId}_${subKey}`]=val;updateProgress();
+}
+
+// ============================================================
+// PROGRESS
+// ============================================================
+function updateProgress(){
+  const p1=part1Questions.filter(q=>answers[q.id]!==undefined).length;
+  let p2=0;part2Questions.forEach(q=>q.subQuestions.forEach(sq=>{if(answers[`${q.id}_${sq.key}`]!==undefined)p2++;}));
+  const total=40,done=p1+p2,pct=Math.round(done/total*100);
+  document.getElementById('progress-bar').style.width=pct+'%';
+  document.getElementById('progress-label').textContent=`Đã trả lời: ${done} / ${total} câu/ý (${pct}%)`;
+  document.getElementById('action-info').textContent=`Phần I: ${p1}/24 | Phần II: ${p2}/16 ý`;
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function startTimer(){
+  clearInterval(timerInterval);
+  timerInterval=setInterval(()=>{timeLeft--;updateTimerDisplay();if(timeLeft<=0){clearInterval(timerInterval);submitExam();}},1000);
+}
+function updateTimerDisplay(){
+  const m=Math.floor(timeLeft/60),s=timeLeft%60;
+  const el=document.getElementById('timer-display');
+  el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  el.className='';
+  if(timeLeft<=60)el.classList.add('danger');
+  else if(timeLeft<=300)el.classList.add('warning');
+}
+
+// ============================================================
+// MODAL
+// ============================================================
+function openSubmitModal(){
+  const p1=part1Questions.filter(q=>answers[q.id]!==undefined).length;
+  let p2=0;part2Questions.forEach(q=>q.subQuestions.forEach(sq=>{if(answers[`${q.id}_${sq.key}`]!==undefined)p2++;}));
+  const u=(24-p1)+(16-p2);
+  document.getElementById('modal-unanswered-text').textContent=u>0?`Còn ${u} câu/ý chưa trả lời. Bạn có chắc muốn nộp bài?`:'Bạn đã trả lời tất cả các câu. Xác nhận nộp bài?';
+  document.getElementById('submit-modal').classList.add('show');
+}
+function closeModal(){document.getElementById('submit-modal').classList.remove('show');}
+
+// ============================================================
+// GRADING
+// ============================================================
+function submitExam(){
+  clearInterval(timerInterval);closeModal();examDone=true;
+  const elapsed=Math.round((Date.now()-startTime)/1000);
+  const elapsedStr=String(Math.floor(elapsed/60)).padStart(2,'0')+':'+String(elapsed%60).padStart(2,'0');
+  let p1Correct=0;
+  part1Questions.forEach(q=>{if(answers[q.id]===q.answer)p1Correct++;});
+  const p1Score=p1Correct*0.25;
+  const p2Map=[0,0.1,0.25,0.5,1.0];let p2Score=0;
+  part2Questions.forEach(q=>{let cc=0;q.subQuestions.forEach(sq=>{const ua=answers[`${q.id}_${sq.key}`];if(ua!==undefined&&ua===sq.answer)cc++;});p2Score+=p2Map[cc];});
+  const total=p1Score+p2Score;
+  document.getElementById('result-total').textContent=total.toFixed(2);
+  document.getElementById('res-p1').textContent=p1Score.toFixed(2)+' đ';
+  document.getElementById('res-p2').textContent=p2Score.toFixed(2)+' đ';
+  document.getElementById('res-p1-correct').textContent=p1Correct+'/24';
+  document.getElementById('res-time').textContent=elapsedStr;
+  renderReview(p2Map);
+  document.getElementById('exam-screen').style.display='none';
+  document.getElementById('result-screen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ============================================================
+// REVIEW
+// ============================================================
+function renderReview(p2Map){
+  const c=document.getElementById('review-container');
+  c.innerHTML='<div class="review-title">📝 Chữa đáp án chi tiết</div>';
+  c.innerHTML+='<div style="font-weight:700;color:#1a2744;margin-bottom:0.8rem;font-size:0.92rem;">📚 PHẦN I — Trắc nghiệm</div>';
+  part1Questions.forEach((q,idx)=>{
+    const ua=answers[q.id],correct=ua===q.answer;
+    const item=document.createElement('div');
+    item.className='review-item '+(ua===undefined?'':correct?'correct':'wrong');
+    const status=ua===undefined?'<span class="review-status" style="background:#f3f4f6;color:#6b7280">⬜ Chưa trả lời</span>':correct?'<span class="review-status status-correct">✅ Đúng</span>':'<span class="review-status status-wrong">❌ Sai</span>';
+    item.innerHTML=`${status}<div class="review-q-text">Câu ${idx+1}: ${q.text}</div>${!correct?`<div class="review-answer answer-your">▶ Bạn chọn: ${ua?ua+'. '+q.options[ua]:'Chưa trả lời'}</div>`:''}<div class="review-answer answer-correct">✔ Đáp án đúng: ${q.answer}. ${q.options[q.answer]}</div>`;
+    c.appendChild(item);
+  });
+  const p2h=document.createElement('div');
+  p2h.innerHTML='<div style="font-weight:700;color:#1a2744;margin:1.5rem 0 0.8rem;font-size:0.92rem;">📖 PHẦN II — Đúng / Sai</div>';
+  c.appendChild(p2h);
+  part2Questions.forEach((q,idx)=>{
+    let cc=0;q.subQuestions.forEach(sq=>{const ua=answers[`${q.id}_${sq.key}`];if(ua!==undefined&&ua===sq.answer)cc++;});
+    const qScore=p2Map[cc];
+    const sCls=cc===4?'status-correct':cc>=2?'status-partial':'status-wrong';
+    const sIcon=cc===4?'✅':cc>=2?'⚠️':'❌';
+    const item=document.createElement('div');
+    item.className='review-item '+(cc===4?'correct':'wrong');
+    const content=q.type==='table'?q.tableHtml:`<div class="review-blockquote">${q.quote}<span style="font-style:normal;font-size:0.75rem;color:#9ca3af;display:block;margin-top:0.4rem;">${q.source}</span></div>`;
+    const rows=q.subQuestions.map(sq=>{const ua=answers[`${q.id}_${sq.key}`];const ok=ua!==undefined&&ua===sq.answer;return`<div style="padding:0.4rem 0;border-bottom:1px solid #f0f2f5;font-size:0.84rem;"><span style="color:#374151;font-weight:500;">${sq.text}</span><br><span style="color:${ua===undefined?'#9ca3af':ok?'#16a34a':'#dc2626'}">▶ Bạn chọn: <b>${ua===undefined?'Chưa chọn':ua?'Đúng':'Sai'}</b></span> &nbsp;|&nbsp; <span style="color:#16a34a">✔ Đáp án: <b>${sq.answer?'Đúng':'Sai'}</b></span> ${ok?' <span style="color:#16a34a">✅</span>':' <span style="color:#dc2626">❌</span>'}</div>`;}).join('');
+    item.innerHTML=`<span class="review-status ${sCls}">${sIcon} ${cc}/4 ý đúng — ${qScore.toFixed(2)} điểm</span><div class="review-q-text" style="margin-bottom:0.6rem;">Câu ${idx+1} — Phần II</div>${content}<div style="margin-top:0.5rem;">${rows}</div>`;
+    c.appendChild(item);
+  });
+}
+
+// ============================================================
+// RESET
+// ============================================================
+function resetExam(){
+  clearInterval(timerInterval);
+  document.getElementById('result-screen').style.display='none';
+  document.getElementById('exam-screen').style.display='block';
+  window.scrollTo({top:0,behavior:'smooth'});
+  initExam();
+}
+
+initExam();
+</script>
+</body>
+</html>
